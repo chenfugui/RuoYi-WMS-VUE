@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询库存结算明细列表
-export function listWmsInventorySettlementDetail(query, pageReq) {
+export function listInventorySettlementDetail(query, pageReq) {
   return request({
     url: '/wms/inventorySettlementDetail/list',
     method: 'post',
@@ -10,17 +10,8 @@ export function listWmsInventorySettlementDetail(query, pageReq) {
   })
 }
 
-// 查询库存信息
-export function listByTime(query) {
-  return request({
-    url: '/wms/inventorySettlementDetail/listByTime',
-    method: 'post',
-    data: query,
-  })
-}
-
 // 查询库存结算明细详细
-export function getWmsInventorySettlementDetail(id) {
+export function getInventorySettlementDetail(id) {
   return request({
     url: '/wms/inventorySettlementDetail/' + id,
     method: 'get'
@@ -28,7 +19,7 @@ export function getWmsInventorySettlementDetail(id) {
 }
 
 // 新增库存结算明细
-export function addWmsInventorySettlementDetail(data) {
+export function addInventorySettlementDetail(data) {
   return request({
     url: '/wms/inventorySettlementDetail',
     method: 'post',
@@ -37,7 +28,7 @@ export function addWmsInventorySettlementDetail(data) {
 }
 
 // 修改库存结算明细
-export function updateWmsInventorySettlementDetail(data) {
+export function updateInventorySettlementDetail(data) {
   return request({
     url: '/wms/inventorySettlementDetail',
     method: 'put',
@@ -46,7 +37,7 @@ export function updateWmsInventorySettlementDetail(data) {
 }
 
 // 删除库存结算明细
-export function delWmsInventorySettlementDetail(id) {
+export function delInventorySettlementDetail(id) {
   return request({
     url: '/wms/inventorySettlementDetail/' + id,
     method: 'delete'
@@ -54,7 +45,7 @@ export function delWmsInventorySettlementDetail(id) {
 }
 
 // 导出库存结算明细
-export function exportWmsInventorySettlementDetail(query) {
+export function exportInventorySettlementDetail(query) {
   return request({
     url: '/wms/inventorySettlementDetail/export',
     method: 'get',

@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // 查询供应商账户流水列表
-export function listWmsSupplierTransaction(query, pageReq) {
+export function listSupplierTransaction(query, pageReq) {
   return request({
     url: '/wms/supplierTransaction/list',
     method: 'post',
@@ -11,7 +11,7 @@ export function listWmsSupplierTransaction(query, pageReq) {
 }
 
 // 查询供应商账户流水详细
-export function getWmsSupplierTransaction(id) {
+export function getSupplierTransaction(id) {
   return request({
     url: '/wms/supplierTransaction/' + id,
     method: 'get'
@@ -19,7 +19,7 @@ export function getWmsSupplierTransaction(id) {
 }
 
 // 新增供应商账户流水
-export function addWmsSupplierTransaction(data) {
+export function addSupplierTransaction(data) {
   return request({
     url: '/wms/supplierTransaction',
     method: 'post',
@@ -28,7 +28,7 @@ export function addWmsSupplierTransaction(data) {
 }
 
 // 修改供应商账户流水
-export function updateWmsSupplierTransaction(data) {
+export function updateSupplierTransaction(data) {
   return request({
     url: '/wms/supplierTransaction',
     method: 'put',
@@ -37,7 +37,7 @@ export function updateWmsSupplierTransaction(data) {
 }
 
 // 删除供应商账户流水
-export function delWmsSupplierTransaction(id) {
+export function delSupplierTransaction(id) {
   return request({
     url: '/wms/supplierTransaction/' + id,
     method: 'delete'
@@ -45,7 +45,7 @@ export function delWmsSupplierTransaction(id) {
 }
 
 // 导出供应商账户流水
-export function exportWmsSupplierTransaction(query) {
+export function exportSupplierTransaction(query) {
   return request({
     url: '/wms/supplierTransaction/export',
     method: 'get',
