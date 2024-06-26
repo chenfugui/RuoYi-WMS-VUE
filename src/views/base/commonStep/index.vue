@@ -28,7 +28,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="单位编码" prop="empCode">
+      <!-- <el-form-item label="单位编码" prop="empCode">
         <el-input
           v-model.trim="queryParams.empCode"
           placeholder="请输入单位编码"
@@ -36,7 +36,7 @@
           size="small"
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="序号" prop="stepSort">
         <el-input
           v-model.trim="queryParams.stepSort"
@@ -114,13 +114,14 @@
       <el-table-column label="工序编码" align="center" prop="stepCode" v-if="columns[0].visible"/>
       <el-table-column label="工序名称" align="center" prop="stepName" v-if="columns[1].visible"/>
       <el-table-column label="工价" align="center" prop="stepPrice" v-if="columns[2].visible"/>
-      <el-table-column label="单位编码" align="center" prop="empCode" v-if="columns[3].visible"/>
-      <el-table-column label="序号" align="center" prop="stepSort" v-if="columns[4].visible"/>
-      <el-table-column label="状态" align="center" prop="status" v-if="columns[5].visible">
+     
+      <el-table-column label="序号" align="center" prop="stepSort" v-if="columns[3].visible"/>
+      <el-table-column label="状态" align="center" prop="status" v-if="columns[4].visible">
         <template slot-scope="scope">
             <dict-tag :options="dict.type.data_status_type" :value="scope.row.status"/>
         </template>
       </el-table-column>
+       <!-- <el-table-column label="单位编码" align="center" prop="empCode" v-if="columns[5].visible"/> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -161,9 +162,9 @@
         <el-form-item label="工价" prop="stepPrice">
           <el-input v-model.trim="form.stepPrice" placeholder="请输入工价" />
         </el-form-item>
-        <el-form-item label="单位编码" prop="empCode">
+        <!-- <el-form-item label="单位编码" prop="empCode">
           <el-input v-model.trim="form.empCode" placeholder="请输入单位编码" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="序号" prop="stepSort">
           <el-input v-model.trim="form.stepSort" placeholder="请输入序号" />
         </el-form-item>
@@ -244,9 +245,9 @@ export default {
             { key: 1, label: "工序编码", visible:  true  },
             { key: 2, label: "工序名称", visible:  true  },
             { key: 3, label: "工价", visible:  true  },
-            { key: 4, label: "单位编码", visible:  true  },
             { key: 5, label: "序号", visible:  true  },
             { key: 6, label: "状态", visible:  true  },
+            //{ key: 4, label: "单位编码", visible:  true  },
                              ],
     };
   },
