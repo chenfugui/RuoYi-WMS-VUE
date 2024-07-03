@@ -1,183 +1,89 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px" size="medium" class="ry_form">
-      <el-form-item label="PROID" prop="proid">
-        <el-input
-          v-model.trim="queryParams.proid"
-          placeholder="请输入PROID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px" size="medium"
+      class="ry_form">
+      <el-form-item label="PRO_ID" prop="proId">
+        <el-input v-model.trim="queryParams.proId" placeholder="请输入PRO_ID" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="STEPID" prop="stepid">
-        <el-input
-          v-model.trim="queryParams.stepid"
-          placeholder="请输入STEPID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="STEP_ID" prop="stepId">
+        <el-input v-model.trim="queryParams.stepId" placeholder="请输入STEP_ID" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="SIZEID" prop="sizeid">
-        <el-input
-          v-model.trim="queryParams.sizeid"
-          placeholder="请输入SIZEID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="SIZE_ID" prop="sizeId">
+        <el-input v-model.trim="queryParams.sizeId" placeholder="请输入SIZE_ID" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="EMP_ID" prop="empId">
-        <el-input
-          v-model.trim="queryParams.empId"
-          placeholder="请输入EMP_ID"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model.trim="queryParams.empId" placeholder="请输入EMP_ID" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="PRICE" prop="price">
-        <el-input
-          v-model.trim="queryParams.price"
-          placeholder="请输入PRICE"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model.trim="queryParams.price" placeholder="请输入PRICE" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="创建人" prop="creater">
-        <el-input
-          v-model.trim="queryParams.creater"
-          placeholder="请输入创建人"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="数据状态" prop="delFlag">
+        <el-input v-model.trim="queryParams.delFlag" placeholder="请输入" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="更新人" prop="updater">
-        <el-input
-          v-model.trim="queryParams.updater"
-          placeholder="请输入更新人"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <template v-if="showMoreCondition">
-      <el-form-item label="dr 1 正常  2  删除" prop="dr">
-        <el-input
-          v-model.trim="queryParams.dr"
-          placeholder="请输入dr 1 正常  2  删除"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-    </template>
       <el-form-item class="flex_one tr">
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-        <el-button :icon="showMoreCondition ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" size="mini" @click="showMoreCondition = !showMoreCondition">{{showMoreCondition ? '收起条件' : '展开条件'}}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['base:ErpProPrice:add']"
-        >新增</el-button>
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['base:ErpProPrice:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['base:ErpProPrice:edit']"
-        >修改</el-button>
+        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['base:ErpProPrice:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['base:ErpProPrice:remove']"
-        >删除</el-button>
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['base:ErpProPrice:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          :loading="exportLoading"
-          @click="handleExport"
-          v-hasPermi="['base:ErpProPrice:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" :loading="exportLoading"
+          @click="handleExport" v-hasPermi="['base:ErpProPrice:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
 
     <WmsTable v-loading="loading" :data="ErpProPriceList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="PROID" align="center" prop="proid" v-if="columns[0].visible"/>
-      <el-table-column label="STEPID" align="center" prop="stepid" v-if="columns[1].visible"/>
-      <el-table-column label="SIZEID" align="center" prop="sizeid" v-if="columns[2].visible"/>
-      <el-table-column label="EMP_ID" align="center" prop="empId" v-if="columns[3].visible"/>
-      <el-table-column label="PRICE" align="center" prop="price" v-if="columns[4].visible"/>
-      <el-table-column label="创建人" align="center" prop="creater" v-if="columns[5].visible"/>
-      <el-table-column label="更新人" align="center" prop="updater" v-if="columns[6].visible"/>
-      <el-table-column label="dr 1 正常  2  删除" align="center" prop="dr" v-if="columns[7].visible"/>
+      <el-table-column label="PRO_ID" align="center" prop="proId" v-if="columns[0].visible" />
+      <el-table-column label="STEP_ID" align="center" prop="stepId" v-if="columns[1].visible" />
+      <el-table-column label="SIZE_ID" align="center" prop="sizeId" v-if="columns[2].visible" />
+      <el-table-column label="EMP_ID" align="center" prop="empId" v-if="columns[3].visible" />
+      <el-table-column label="PRICE" align="center" prop="price" v-if="columns[4].visible" />
+      <el-table-column label="数据状态" align="center" prop="delFlag" v-if="columns[5].visible" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['base:ErpProPrice:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['base:ErpProPrice:remove']"
-          >删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['base:ErpProPrice:edit']">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['base:ErpProPrice:remove']">删除</el-button>
         </template>
       </el-table-column>
     </WmsTable>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改服装工价信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="50%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="108px" inline class="dialog-form-two">
-        <el-form-item label="PROID" prop="proid">
-          <el-input v-model.trim="form.proid" placeholder="请输入PROID" />
+        <el-form-item label="PRO_ID" prop="proId">
+          <el-input v-model.trim="form.proId" placeholder="请输入PRO_ID" />
         </el-form-item>
-        <el-form-item label="STEPID" prop="stepid">
-          <el-input v-model.trim="form.stepid" placeholder="请输入STEPID" />
+        <el-form-item label="STEP_ID" prop="stepId">
+          <el-input v-model.trim="form.stepId" placeholder="请输入STEP_ID" />
         </el-form-item>
-        <el-form-item label="SIZEID" prop="sizeid">
-          <el-input v-model.trim="form.sizeid" placeholder="请输入SIZEID" />
+        <el-form-item label="SIZE_ID" prop="sizeId">
+          <el-input v-model.trim="form.sizeId" placeholder="请输入SIZE_ID" />
         </el-form-item>
         <el-form-item label="EMP_ID" prop="empId">
           <el-input v-model.trim="form.empId" placeholder="请输入EMP_ID" />
@@ -185,14 +91,8 @@
         <el-form-item label="PRICE" prop="price">
           <el-input v-model.trim="form.price" placeholder="请输入PRICE" />
         </el-form-item>
-        <el-form-item label="创建人" prop="creater">
-          <el-input v-model.trim="form.creater" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="更新人" prop="updater">
-          <el-input v-model.trim="form.updater" placeholder="请输入更新人" />
-        </el-form-item>
-        <el-form-item label="dr 1 正常  2  删除" prop="dr">
-          <el-input v-model.trim="form.dr" placeholder="请输入dr 1 正常  2  删除" />
+        <el-form-item label="数据状态" prop="delFlag">
+          <el-input v-model.trim="form.dr" placeholder="请输入" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -234,14 +134,12 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        proid: null,
-        stepid: null,
-        sizeid: null,
+        proId: null,
+        stepId: null,
+        sizeId: null,
         empId: null,
         price: null,
-        creater: null,
-        updater: null,
-        dr: null
+        delFlag: null
       },
       // 表单参数
       form: {},
@@ -249,16 +147,13 @@ export default {
       rules: {
       },
       columns: [
-            { key: 1, label: "PROID", visible:  true  },
-            { key: 2, label: "STEPID", visible:  true  },
-            { key: 3, label: "SIZEID", visible:  true  },
-            { key: 4, label: "EMP_ID", visible:  true  },
-            { key: 5, label: "PRICE", visible:  true  },
-            { key: 6, label: "创建人", visible:  true  },
-                { key: 8, label: "更新人", visible:  true  },
-                { key: 10, label: "dr 1 正常  2  删除", visible:  false  },
-         ],
-      showMoreCondition: false
+        { key: 1, label: "PRO_ID", visible: true },
+        { key: 2, label: "STEP_ID", visible: true },
+        { key: 3, label: "SIZE_ID", visible: true },
+        { key: 4, label: "EMP_ID", visible: true },
+        { key: 5, label: "PRICE", visible: true },
+        { key: 10, label: "delFlag", visible: false },
+      ],
     };
   },
   created() {
@@ -268,9 +163,9 @@ export default {
     /** 查询服装工价信息列表 */
     getList() {
       this.loading = true;
-      const {pageNum, pageSize} = this.queryParams;
-      const query = {...this.queryParams, pageNum: undefined, pageSize: undefined};
-      const pageReq = {page: pageNum - 1, size: pageSize};
+      const { pageNum, pageSize } = this.queryParams;
+      const query = { ...this.queryParams, pageNum: undefined, pageSize: undefined };
+      const pageReq = { page: pageNum - 1, size: pageSize };
       listErpProPrice(query, pageReq).then(response => {
         const { content, totalElements } = response
         this.ErpProPriceList = content;
@@ -287,16 +182,16 @@ export default {
     reset() {
       this.form = {
         id: null,
-        proid: null,
-        stepid: null,
-        sizeid: null,
+        proId: null,
+        stepId: null,
+        sizeId: null,
         empId: null,
         price: null,
-        creater: null,
+        createBy: null,
         createTime: null,
-        updater: null,
+        updateBy: null,
         updateTime: null,
-        dr: null
+        delFlag: null
       };
       this.resetForm("form");
     },
@@ -313,7 +208,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -355,12 +250,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除服装工价信息编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除服装工价信息编号为"' + ids + '"的数据项？').then(function () {
         return delErpProPrice(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => { });
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -371,7 +266,7 @@ export default {
       }).then(response => {
         this.$download.download(response);
         this.exportLoading = false;
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }
 };

@@ -37,24 +37,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建人" prop="creater">
-        <el-input
-          v-model.trim="queryParams.creater"
-          placeholder="请输入创建人"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="更新人" prop="updater">
-        <el-input
-          v-model.trim="queryParams.updater"
-          placeholder="请输入更新人"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="dr 1 正常  2  删除" prop="dr">
         <el-input
           v-model.trim="queryParams.dr"
@@ -123,9 +105,7 @@
       <el-table-column label="尺码名称" align="center" prop="colorName" v-if="columns[1].visible"/>
       <el-table-column label="单位id" align="center" prop="empId" v-if="columns[2].visible"/>
       <el-table-column label="顺序号" align="center" prop="seqNo" v-if="columns[3].visible"/>
-      <el-table-column label="创建人" align="center" prop="creater" v-if="columns[4].visible"/>
-      <el-table-column label="更新人" align="center" prop="updater" v-if="columns[5].visible"/>
-      <el-table-column label="dr 1 正常  2  删除" align="center" prop="dr" v-if="columns[6].visible"/>
+      <el-table-column label="dr 1 正常  2  删除" align="center" prop="dr" v-if="columns[4].visible"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -168,12 +148,6 @@
         </el-form-item>
         <el-form-item label="顺序号" prop="seqNo">
           <el-input v-model.trim="form.seqNo" placeholder="请输入顺序号" />
-        </el-form-item>
-        <el-form-item label="创建人" prop="creater">
-          <el-input v-model.trim="form.creater" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="更新人" prop="updater">
-          <el-input v-model.trim="form.updater" placeholder="请输入更新人" />
         </el-form-item>
         <el-form-item label="dr 1 正常  2  删除" prop="dr">
           <el-input v-model.trim="form.dr" placeholder="请输入dr 1 正常  2  删除" />
@@ -222,8 +196,6 @@ export default {
         colorName: null,
         empId: null,
         seqNo: null,
-        creater: null,
-        updater: null,
         dr: null
       },
       // 表单参数
@@ -236,9 +208,7 @@ export default {
             { key: 2, label: "尺码名称", visible:  true  },
             { key: 3, label: "单位id", visible:  true  },
             { key: 4, label: "顺序号", visible:  true  },
-            { key: 5, label: "创建人", visible:  true  },
-                { key: 7, label: "更新人", visible:  true  },
-                { key: 9, label: "dr 1 正常  2  删除", visible:  true  },
+                            { key: 9, label: "dr 1 正常  2  删除", visible:  true  },
          ],
     };
   },
@@ -272,9 +242,9 @@ export default {
         colorName: null,
         empId: null,
         seqNo: null,
-        creater: null,
+        createBy: null,
         createTime: null,
-        updater: null,
+        updateBy: null,
         updateTime: null,
         dr: null
       };

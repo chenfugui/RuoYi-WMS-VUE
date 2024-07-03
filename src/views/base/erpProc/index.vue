@@ -1,169 +1,107 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px" size="medium" class="ry_form">
-      <el-form-item label="工序编码" prop="stepcode">
-        <el-input
-          v-model.trim="queryParams.stepcode"
-          placeholder="请输入工序编码"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px" size="medium"
+      class="ry_form">
+      <el-form-item label="工序编码" prop="stepCode">
+        <el-input v-model.trim="queryParams.stepCode" placeholder="请输入工序编码" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="工序名称" prop="stepname">
-        <el-input
-          v-model.trim="queryParams.stepname"
-          placeholder="请输入工序名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="工序名称" prop="stepName">
+        <el-input v-model.trim="queryParams.stepName" placeholder="请输入工序名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="工序工价" prop="stepprice">
-        <el-input
-          v-model.trim="queryParams.stepprice"
-          placeholder="请输入工序工价"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="工序工价" prop="stepPrice">
+        <el-input v-model.trim="queryParams.stepPrice" placeholder="请输入工序工价" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="单位编码" prop="empcode">
-        <el-input
-          v-model.trim="queryParams.empcode"
-          placeholder="请输入单位编码"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="单位编码" prop="empCode">
+        <el-input v-model.trim="queryParams.empCode" placeholder="请输入单位编码" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="顺序号" prop="seqNo">
-        <el-input
-          v-model.trim="queryParams.seqNo"
-          placeholder="请输入顺序号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model.trim="queryParams.seqNo" placeholder="请输入顺序号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="工序状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择工序状态" clearable size="small">
-              <el-option label="请选择字典生成" value="" />
+          <el-option label="请选择字典生成" value="" />
         </el-select>
       </el-form-item>
-      <el-form-item label="dr 1 正常  2  删除" prop="dr">
-        <el-input
-          v-model.trim="queryParams.dr"
-          placeholder="请输入dr 1 正常  2  删除"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="数据状态" prop="delFlag">
+        <el-input v-model.trim="queryParams.delFlag" placeholder="请输入" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
+      <template v-if="showMoreCondition">
+        <el-form-item label="单位id" prop="empId">
+          <el-input v-model.trim="queryParams.empId" placeholder="请输入单位id" clearable size="small"
+            @keyup.enter.native="handleQuery" />
+        </el-form-item>
+      </template>
       <el-form-item class="flex_one tr">
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button :icon="showMoreCondition ? 'el-icon-arrow-up' : 'el-icon-arrow-down'" size="mini"
+          @click="showMoreCondition = !showMoreCondition">{{ showMoreCondition ? '收起条件' : '展开条件' }}</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['base:ErpProc:add']"
-        >新增</el-button>
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['base:ErpProc:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['base:ErpProc:edit']"
-        >修改</el-button>
+        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
+          v-hasPermi="['base:ErpProc:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['base:ErpProc:remove']"
-        >删除</el-button>
+        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
+          v-hasPermi="['base:ErpProc:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          :loading="exportLoading"
-          @click="handleExport"
-          v-hasPermi="['base:ErpProc:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" :loading="exportLoading"
+          @click="handleExport" v-hasPermi="['base:ErpProc:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
 
     <WmsTable v-loading="loading" :data="ErpProcList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="工序编码" align="center" prop="stepcode" v-if="columns[0].visible"/>
-      <el-table-column label="工序名称" align="center" prop="stepname" v-if="columns[1].visible"/>
-      <el-table-column label="工序工价" align="center" prop="stepprice" v-if="columns[2].visible"/>
-      <el-table-column label="单位编码" align="center" prop="empcode" v-if="columns[3].visible"/>
-      <el-table-column label="顺序号" align="center" prop="seqNo" v-if="columns[4].visible"/>
-      <el-table-column label="工序状态" align="center" prop="status" v-if="columns[5].visible"/>
-      <el-table-column label="dr 1 正常  2  删除" align="center" prop="dr" v-if="columns[6].visible"/>
+      <el-table-column label="工序编码" align="center" prop="stepCode" v-if="columns[0].visible" />
+      <el-table-column label="工序名称" align="center" prop="stepName" v-if="columns[1].visible" />
+      <el-table-column label="工序工价" align="center" prop="stepPrice" v-if="columns[2].visible" />
+      <el-table-column label="单位编码" align="center" prop="empCode" v-if="columns[3].visible" />
+      <el-table-column label="顺序号" align="center" prop="seqNo" v-if="columns[4].visible" />
+      <el-table-column label="工序状态" align="center" prop="status" v-if="columns[5].visible" />
+      <el-table-column label="数据状态" align="center" prop="delFlag" v-if="columns[6].visible" />
+      <el-table-column label="单位id" align="center" prop="empId" v-if="columns[7].visible" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['base:ErpProc:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['base:ErpProc:remove']"
-          >删除</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['base:ErpProc:edit']">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['base:ErpProc:remove']">删除</el-button>
         </template>
       </el-table-column>
     </WmsTable>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改服装工序管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="50%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="108px" inline class="dialog-form-two">
-        <el-form-item label="工序编码" prop="stepcode">
-          <el-input v-model.trim="form.stepcode" placeholder="请输入工序编码" />
+        <el-form-item label="工序编码" prop="stepCode">
+          <el-input v-model.trim="form.stepCode" placeholder="请输入工序编码" />
         </el-form-item>
-        <el-form-item label="工序名称" prop="stepname">
-          <el-input v-model.trim="form.stepname" placeholder="请输入工序名称" />
+        <el-form-item label="工序名称" prop="stepName">
+          <el-input v-model.trim="form.stepName" placeholder="请输入工序名称" />
         </el-form-item>
-        <el-form-item label="工序工价" prop="stepprice">
-          <el-input v-model.trim="form.stepprice" placeholder="请输入工序工价" />
+        <el-form-item label="工序工价" prop="stepPrice">
+          <el-input v-model.trim="form.stepPrice" placeholder="请输入工序工价" />
         </el-form-item>
-        <el-form-item label="单位编码" prop="empcode">
-          <el-input v-model.trim="form.empcode" placeholder="请输入单位编码" />
+        <el-form-item label="单位编码" prop="empCode">
+          <el-input v-model.trim="form.empCode" placeholder="请输入单位编码" />
         </el-form-item>
         <el-form-item label="顺序号" prop="seqNo">
           <el-input v-model.trim="form.seqNo" placeholder="请输入顺序号" />
@@ -173,8 +111,11 @@
             <el-radio label="1">请选择字典生成</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="dr 1 正常  2  删除" prop="dr">
-          <el-input v-model.trim="form.dr" placeholder="请输入dr 1 正常  2  删除" />
+        <el-form-item label="数据状态" prop="delFlag">
+          <el-input v-model.trim="form.delFlag" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item label="单位id" prop="empId">
+          <el-input v-model.trim="form.empId" placeholder="请输入单位id" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -216,13 +157,14 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        stepcode: null,
-        stepname: null,
-        stepprice: null,
-        empcode: null,
+        stepCode: null,
+        stepName: null,
+        stepPrice: null,
+        empCode: null,
         seqNo: null,
         status: null,
-        dr: null
+        delFlag: null,
+        empId: null
       },
       // 表单参数
       form: {},
@@ -230,14 +172,16 @@ export default {
       rules: {
       },
       columns: [
-            { key: 1, label: "工序编码", visible:  true  },
-            { key: 2, label: "工序名称", visible:  true  },
-            { key: 3, label: "工序工价", visible:  true  },
-            { key: 4, label: "单位编码", visible:  true  },
-            { key: 5, label: "顺序号", visible:  true  },
-            { key: 6, label: "工序状态", visible:  true  },
-                            { key: 11, label: "dr 1 正常  2  删除", visible:  false  },
-         ],
+        { key: 1, label: "工序编码", visible: true },
+        { key: 2, label: "工序名称", visible: true },
+        { key: 3, label: "工序工价", visible: true },
+        { key: 4, label: "单位编码", visible: true },
+        { key: 5, label: "顺序号", visible: true },
+        { key: 6, label: "工序状态", visible: true },
+        { key: 11, label: "数据状态", visible: false },
+        { key: 12, label: "单位id", visible: false },
+      ],
+      showMoreCondition: false
     };
   },
   created() {
@@ -247,9 +191,9 @@ export default {
     /** 查询服装工序管理列表 */
     getList() {
       this.loading = true;
-      const {pageNum, pageSize} = this.queryParams;
-      const query = {...this.queryParams, pageNum: undefined, pageSize: undefined};
-      const pageReq = {page: pageNum - 1, size: pageSize};
+      const { pageNum, pageSize } = this.queryParams;
+      const query = { ...this.queryParams, pageNum: undefined, pageSize: undefined };
+      const pageReq = { page: pageNum - 1, size: pageSize };
       listErpProc(query, pageReq).then(response => {
         const { content, totalElements } = response
         this.ErpProcList = content;
@@ -266,17 +210,18 @@ export default {
     reset() {
       this.form = {
         id: null,
-        stepcode: null,
-        stepname: null,
-        stepprice: null,
-        empcode: null,
+        stepCode: null,
+        stepName: null,
+        stepPrice: null,
+        empCode: null,
         seqNo: null,
         status: "0",
         createBy: null,
         createTime: null,
         updateBy: null,
         updateTime: null,
-        dr: null
+        delFlag: null,
+        empId: null
       };
       this.resetForm("form");
     },
@@ -293,7 +238,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -335,12 +280,12 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除服装工序管理编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除服装工序管理编号为"' + ids + '"的数据项？').then(function () {
         return delErpProc(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => { });
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -351,7 +296,7 @@ export default {
       }).then(response => {
         this.$download.download(response);
         this.exportLoading = false;
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }
 };
