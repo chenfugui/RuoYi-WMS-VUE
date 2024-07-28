@@ -60,7 +60,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['base:ErpSize:add']"
+          v-hasPermi="['base:erpSize:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -71,7 +71,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['base:ErpSize:edit']"
+          v-hasPermi="['base:erpSize:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -82,7 +82,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['base:ErpSize:remove']"
+          v-hasPermi="['base:erpSize:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -93,7 +93,7 @@
           size="mini"
           :loading="exportLoading"
           @click="handleExport"
-          v-hasPermi="['base:ErpSize:export']"
+          v-hasPermi="['base:erpSize:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
@@ -113,14 +113,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['base:ErpSize:edit']"
+            v-hasPermi="['base:erpSize:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['base:ErpSize:remove']"
+            v-hasPermi="['base:erpSize:remove']"
           >删除</el-button>
         </template>
       </el-table-column>

@@ -31,19 +31,19 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['base:ErpColor:add']">新增</el-button>
+          v-hasPermi="['base:erpColor:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['base:ErpColor:edit']">修改</el-button>
+          v-hasPermi="['base:erpColor:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['base:ErpColor:remove']">删除</el-button>
+          v-hasPermi="['base:erpColor:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" :loading="exportLoading"
-          @click="handleExport" v-hasPermi="['base:ErpColor:export']">导出</el-button>
+          @click="handleExport" v-hasPermi="['base:erpColor:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
@@ -58,9 +58,9 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['base:ErpColor:edit']">修改</el-button>
+            v-hasPermi="['base:erpColor:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['base:ErpColor:remove']">删除</el-button>
+            v-hasPermi="['base:erpColor:remove']">删除</el-button>
         </template>
       </el-table-column>
     </WmsTable>

@@ -12,12 +12,14 @@
       </el-form-item>
       <el-form-item label="产品类型" prop="proType">
         <el-select v-model="queryParams.proType" placeholder="请选择产品类型" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+          <el-option v-for="dict in dict.type.pro_type" :key="dict.value" :label="dict.label"
+                  :value="dict.value+''"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="产品状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择产品状态" clearable size="small">
-          <el-option label="请选择字典生成" value="" />
+          <el-option v-for="dict in dict.type.pro_status" :key="dict.value" :label="dict.label"
+                  :value="dict.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="单位ID" prop="empid">
@@ -45,19 +47,19 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['base:ErpPro:add']">新增</el-button>
+          v-hasPermi="['base:erpPro:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['base:ErpPro:edit']">修改</el-button>
+          v-hasPermi="['base:erpPro:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['base:ErpPro:remove']">删除</el-button>
+          v-hasPermi="['base:erpPro:remove']">删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" :loading="exportLoading"
-          @click="handleExport" v-hasPermi="['base:ErpPro:export']">导出</el-button>
+          @click="handleExport" v-hasPermi="['base:erpPro:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
@@ -76,9 +78,9 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['base:ErpPro:edit']">修改</el-button>
+            v-hasPermi="['base:erpPro:edit']">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['base:ErpPro:remove']">删除</el-button>
+            v-hasPermi="['base:erpPro:remove']">删除</el-button>
         </template>
       </el-table-column>
     </WmsTable>
@@ -90,17 +92,18 @@
     <el-dialog :title="title" :visible.sync="open" width="50%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="108px" inline class="dialog-form-two">
         <el-form-item label="产品编码" prop="proCode">
-          <el-input v-model.trim="form.proCode" placeholder="请输入产品编码" />
+          <el-input v-model.trim="form.proCode" placeholder="请输入编码" />
         </el-form-item>
         <el-form-item label="产品名称" prop="proName">
-          <el-input v-model.trim="form.proName" placeholder="请输入产品名称" />
+          <el-input v-model.trim="form.proName" placeholder="请输入名称" />
         </el-form-item>
         <el-form-item label="产品描述" prop="proDesc">
           <el-input v-model="form.proDesc" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="产品类型" prop="proType">
           <el-select v-model="form.proType" placeholder="请选择产品类型">
-            <el-option label="请选择字典生成" value="" />
+            <el-option v-for="dict in dict.type.pro_type" :key="dict.value" :label="dict.label"
+                  :value="dict.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="产品备注" prop="proMemo">
@@ -108,7 +111,8 @@
         </el-form-item>
         <el-form-item label="产品状态">
           <el-radio-group v-model="form.status">
-            <el-radio label="1">请选择字典生成</el-radio>
+            <el-radio v-for="dict in dict.type.pro_status" :key="dict.value" :label="dict.value"
+                   >{{ dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="单位ID" prop="empid">
@@ -134,6 +138,7 @@ import { listErpPro, getErpPro, delErpPro, addErpPro, updateErpPro, exportErpPro
 
 export default {
   name: "ErpPro",
+  dicts: ['pro_type', 'pro_status'],
   data() {
     return {
       // 遮罩层
@@ -171,7 +176,9 @@ export default {
         delFlag: null
       },
       // 表单参数
-      form: {},
+      form: {
+        status:'0'
+      },
       // 表单校验
       rules: {
       },
@@ -220,7 +227,7 @@ export default {
         proDesc: null,
         proType: null,
         proMemo: null,
-        status: "0",
+        status: '0',
         empid: null,
         seqNo: null,
         createBy: null,
@@ -252,6 +259,7 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加服装产品管理";
+      this.form.status='0';
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
