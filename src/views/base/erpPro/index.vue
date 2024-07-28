@@ -22,8 +22,8 @@
                   :value="dict.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="单位ID" prop="empid">
-        <el-input v-model.trim="queryParams.empid" placeholder="请输入单位ID" clearable size="small"
+      <el-form-item label="单位ID" prop="empId">
+        <el-input v-model.trim="queryParams.empId" placeholder="请输入单位ID" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
       <template v-if="showMoreCondition">
@@ -72,7 +72,7 @@
       <el-table-column label="产品类型" align="center" prop="proType" v-if="columns[3].visible" />
       <el-table-column label="产品备注" align="center" prop="proMemo" v-if="columns[4].visible" />
       <el-table-column label="产品状态" align="center" prop="status" v-if="columns[5].visible" />
-      <el-table-column label="单位ID" align="center" prop="empid" v-if="columns[6].visible" />
+      <el-table-column label="单位ID" align="center" prop="empId" v-if="columns[6].visible" />
       <el-table-column label="顺序号" align="center" prop="seqNo" v-if="columns[7].visible" />
       <el-table-column label="数据状态" align="center" prop="delFlag" v-if="columns[8].visible" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -115,8 +115,8 @@
                    >{{ dict.label }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="单位ID" prop="empid">
-          <el-input v-model.trim="form.empid" placeholder="请输入单位ID" />
+        <el-form-item label="单位ID" prop="empId">
+          <el-input v-model.trim="form.empId" placeholder="请输入单位ID" />
         </el-form-item>
         <el-form-item label="顺序号" prop="seqNo">
           <el-input v-model.trim="form.seqNo" placeholder="请输入顺序号" />
@@ -171,7 +171,7 @@ export default {
         proType: null,
         proMemo: null,
         status: null,
-        empid: null,
+        empId: null,
         seqNo: null,
         delFlag: null
       },
@@ -228,7 +228,7 @@ export default {
         proType: null,
         proMemo: null,
         status: '0',
-        empid: null,
+        empId: null,
         seqNo: null,
         createBy: null,
         createTime: null,
