@@ -2,9 +2,10 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px" size="medium"
       class="ry_form">
-      <el-form-item label="产品ID" prop="proId">
-        <el-input v-model.trim="queryParams.proId" placeholder="请输入产品ID" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="产品" prop="proId">
+        <el-select v-model="queryParams.proId" placeholder="请选择产品">
+          <el-option v-for="pro in erpProList" :key="pro.proId" :label="pro.proName" :value="pro.proId"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="单位id" prop="empId">
         <el-input v-model.trim="queryParams.empId" placeholder="请输入单位id" clearable size="small"
@@ -26,10 +27,10 @@
         <el-input v-model.trim="queryParams.seqNo" placeholder="请输入排序号" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="数据状态" prop="delFlag">
+      <!-- <el-form-item label="数据状态" prop="delFlag">
         <el-input v-model.trim="queryParams.delFlag" placeholder="请输入" clearable size="small"
           @keyup.enter.native="handleQuery" />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item class="flex_one tr">
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -81,15 +82,17 @@
     <!-- 添加或修改服装生产尺码对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="50%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="108px" inline class="dialog-form-two">
-        <el-form-item label="产品ID" prop="proId">
-          <el-input v-model.trim="form.proId" placeholder="请输入产品ID" />
+        <el-form-item label="产品" prop="proId">
+          <el-select v-model="form.proId" placeholder="请选择产品">
+            <el-option v-for="pro in erpProList" :key="pro.proId" :label="pro.proName" :value="pro.proId"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="单位id" prop="empId">
           <el-input v-model.trim="form.empId" placeholder="请输入单位id" />
         </el-form-item>
-        <el-form-item label="尺码ID" prop="sizeId">
+        <!-- <el-form-item label="尺码ID" prop="sizeId">
           <el-input v-model.trim="form.sizeId" placeholder="请输入尺码ID" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="尺寸编码" prop="sizeCode">
           <el-input v-model.trim="form.sizeCode" placeholder="请输入尺寸编码" />
         </el-form-item>
@@ -99,9 +102,9 @@
         <el-form-item label="排序号" prop="seqNo">
           <el-input v-model.trim="form.seqNo" placeholder="请输入排序号" />
         </el-form-item>
-        <el-form-item label="数据状态" prop="delFlag">
+        <!-- <el-form-item label="数据状态" prop="delFlag">
           <el-input v-model.trim="form.delFlag" placeholder="请输入" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -113,6 +116,7 @@
 
 <script>
 import { listErpProSize, getErpProSize, delErpProSize, addErpProSize, updateErpProSize, exportErpProSize } from "@/api/base/erpProSize";
+import { listErpPro } from "@/api/base/erpPro";
 
 export default {
   name: "ErpProSize",
@@ -164,10 +168,12 @@ export default {
         { key: 6, label: "排序号", visible: true },
         { key: 11, label: "数据状态", visible: false },
       ],
+      erpProList: []
     };
   },
   created() {
     this.getList();
+    this.getProductList();
   },
   methods: {
     /** 查询服装生产尺码列表 */
@@ -181,6 +187,14 @@ export default {
         this.ErpProSizeList = content;
         this.total = totalElements;
         this.loading = false;
+      });
+    },
+    getProductList() {
+      const pageReq = { page: 0, size: 999999 };
+      const proQuery = {};
+      listErpPro(proQuery, pageReq).then(response => {
+        const { content, totalElements } = response
+        this.erpProList = content;
       });
     },
     // 取消按钮
@@ -224,6 +238,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
+      this.getProductList();
       this.reset();
       this.open = true;
       this.title = "添加服装生产尺码";

@@ -2,30 +2,35 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px" size="medium"
       class="ry_form">
-      <el-form-item label="PRO_ID" prop="proId">
-        <el-input v-model.trim="queryParams.proId" placeholder="请输入PRO_ID" clearable size="small"
+      <el-form-item label="产品" prop="proId">
+        <el-select v-model="queryParams.proId" placeholder="请选择产品">
+          <el-option v-for="pro in erpProList" :key="pro.proId" :label="pro.proName" :value="pro.proId"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="工序" prop="stepId">
+        <el-select v-model="queryParams.stepId" placeholder="请选择工序">
+          <el-option v-for="process in erpProProcessList" :key="process.id" :label="process.stepName"
+            :value="process.id"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="尺码" prop="sizeId">
+        <el-select v-model="queryParams.sizeId" placeholder="请选择尺码">
+          <el-option v-for="proSize in erpProSizeList" :key="proSize.id" :label="proSize.sizeName"
+            :value="proSize.id"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单位ID" prop="empId">
+        <el-input v-model.trim="queryParams.empId" placeholder="请输入单位ID" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="STEP_ID" prop="stepId">
-        <el-input v-model.trim="queryParams.stepId" placeholder="请输入STEP_ID" clearable size="small"
+      <el-form-item label="工价" prop="price">
+        <el-input v-model.trim="queryParams.price" placeholder="请输入工价" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="SIZE_ID" prop="sizeId">
-        <el-input v-model.trim="queryParams.sizeId" placeholder="请输入SIZE_ID" clearable size="small"
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="EMP_ID" prop="empId">
-        <el-input v-model.trim="queryParams.empId" placeholder="请输入EMP_ID" clearable size="small"
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="PRICE" prop="price">
-        <el-input v-model.trim="queryParams.price" placeholder="请输入PRICE" clearable size="small"
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="数据状态" prop="delFlag">
+      <!-- <el-form-item label="数据状态" prop="delFlag">
         <el-input v-model.trim="queryParams.delFlag" placeholder="请输入" clearable size="small"
           @keyup.enter.native="handleQuery" />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item class="flex_one tr">
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -54,12 +59,12 @@
 
     <WmsTable v-loading="loading" :data="ErpProPriceList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="PRO_ID" align="center" prop="proId" v-if="columns[0].visible" />
-      <el-table-column label="STEP_ID" align="center" prop="stepId" v-if="columns[1].visible" />
-      <el-table-column label="SIZE_ID" align="center" prop="sizeId" v-if="columns[2].visible" />
-      <el-table-column label="EMP_ID" align="center" prop="empId" v-if="columns[3].visible" />
-      <el-table-column label="PRICE" align="center" prop="price" v-if="columns[4].visible" />
-      <el-table-column label="数据状态" align="center" prop="delFlag" v-if="columns[5].visible" />
+      <el-table-column label="产品ID" align="center" prop="proId" v-if="columns[0].visible" />
+      <el-table-column label="工序ID" align="center" prop="stepId" v-if="columns[1].visible" />
+      <el-table-column label="尺码ID" align="center" prop="sizeId" v-if="columns[2].visible" />
+      <el-table-column label="单位ID" align="center" prop="empId" v-if="columns[3].visible" />
+      <el-table-column label="工价" align="center" prop="price" v-if="columns[4].visible" />
+      <!-- <el-table-column label="数据状态" align="center" prop="delFlag" v-if="columns[5].visible" /> -->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
@@ -76,24 +81,32 @@
     <!-- 添加或修改服装工价信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="50%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="108px" inline class="dialog-form-two">
-        <el-form-item label="PRO_ID" prop="proId">
-          <el-input v-model.trim="form.proId" placeholder="请输入PRO_ID" />
+        <el-form-item label="产品" prop="proId">
+          <el-select v-model="form.proId" placeholder="请选择产品">
+            <el-option v-for="pro in erpProList" :key="pro.proId" :label="pro.proName" :value="pro.proId"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="STEP_ID" prop="stepId">
-          <el-input v-model.trim="form.stepId" placeholder="请输入STEP_ID" />
+        <el-form-item label="工序" prop="stepId">
+          <el-select v-model="form.stepId" placeholder="请选择工序">
+            <el-option v-for="process in erpProProcessList" :key="process.id" :label="process.stepName"
+              :value="process.id"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="SIZE_ID" prop="sizeId">
-          <el-input v-model.trim="form.sizeId" placeholder="请输入SIZE_ID" />
+        <el-form-item label="尺码" prop="sizeId">
+          <el-select v-model="form.sizeId" placeholder="请选择尺码">
+            <el-option v-for="proSize in erpProSizeList" :key="proSize.id" :label="proSize.sizeName"
+              :value="proSize.id"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="EMP_ID" prop="empId">
+        <el-form-item label="单位ID" prop="empId">
           <el-input v-model.trim="form.empId" placeholder="请输入EMP_ID" />
         </el-form-item>
-        <el-form-item label="PRICE" prop="price">
+        <el-form-item label="工价" prop="price">
           <el-input v-model.trim="form.price" placeholder="请输入PRICE" />
         </el-form-item>
-        <el-form-item label="数据状态" prop="delFlag">
+        <!-- <el-form-item label="数据状态" prop="delFlag">
           <el-input v-model.trim="form.dr" placeholder="请输入" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -105,7 +118,9 @@
 
 <script>
 import { listErpProPrice, getErpProPrice, delErpProPrice, addErpProPrice, updateErpProPrice, exportErpProPrice } from "@/api/base/erpProPrice";
-
+import { listErpPro } from "@/api/base/erpPro";
+import { listErpProProcess } from "@/api/base/erpProProcess";
+import { listErpProSize } from "@/api/base/erpProSize";
 export default {
   name: "ErpProPrice",
   data() {
@@ -147,17 +162,23 @@ export default {
       rules: {
       },
       columns: [
-        { key: 1, label: "PRO_ID", visible: true },
-        { key: 2, label: "STEP_ID", visible: true },
-        { key: 3, label: "SIZE_ID", visible: true },
-        { key: 4, label: "EMP_ID", visible: true },
-        { key: 5, label: "PRICE", visible: true },
-        { key: 10, label: "delFlag", visible: false },
+        { key: 1, label: "产品ID", visible: true },
+        { key: 2, label: "工序ID", visible: true },
+        { key: 3, label: "尺码ID", visible: true },
+        { key: 4, label: "单位ID", visible: true },
+        { key: 5, label: "工价", visible: true },
+        // { key: 10, label: "delFlag", visible: false },
       ],
+      erpProList: [],
+      erpProProcessList: [],
+      erpProSizeList: [],
     };
   },
   created() {
     this.getList();
+    this.getProductList();
+    this.getProductSizeList();
+    this.getProductProcessList();
   },
   methods: {
     /** 查询服装工价信息列表 */
@@ -171,6 +192,30 @@ export default {
         this.ErpProPriceList = content;
         this.total = totalElements;
         this.loading = false;
+      });
+    },
+    getProductList() {
+      const pageReq = { page: 0, size: 999999 };
+      const proQuery = {};
+      listErpPro(proQuery, pageReq).then(response => {
+        const { content, totalElements } = response
+        this.erpProList = content;
+      });
+    },
+    getProductProcessList() {
+      const pageReq = { page: 0, size: 999999 };
+      const proQuery = {};
+      listErpProProcess(proQuery, pageReq).then(response => {
+        const { content, totalElements } = response
+        this.erpProProcessList = content;
+      });
+    },
+    getProductSizeList() {
+      const pageReq = { page: 0, size: 999999 };
+      const proQuery = {};
+      listErpProSize(proQuery, pageReq).then(response => {
+        const { content, totalElements } = response
+        this.erpProSizeList = content;
       });
     },
     // 取消按钮
@@ -213,6 +258,9 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
+      this.getProductList();
+      this.getProductProcessList();
+      this.getProductSizeList();
       this.reset();
       this.open = true;
       this.title = "添加服装工价信息";
