@@ -13,13 +13,13 @@
       <el-form-item label="产品类型" prop="proType">
         <el-select v-model="queryParams.proType" placeholder="请选择产品类型" clearable size="small">
           <el-option v-for="dict in dict.type.pro_type" :key="dict.value" :label="dict.label"
-                  :value="dict.value+''"></el-option>
+            :value="dict.value + ''"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="产品状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择产品状态" clearable size="small">
           <el-option v-for="dict in dict.type.pro_status" :key="dict.value" :label="dict.label"
-                  :value="dict.value"></el-option>
+            :value="dict.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="单位ID" prop="empId">
@@ -103,7 +103,7 @@
         <el-form-item label="产品类型" prop="proType">
           <el-select v-model="form.proType" placeholder="请选择产品类型">
             <el-option v-for="dict in dict.type.pro_type" :key="dict.value" :label="dict.label"
-                  :value="dict.value"></el-option>
+              :value="dict.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="产品备注" prop="proMemo">
@@ -111,8 +111,8 @@
         </el-form-item>
         <el-form-item label="产品状态">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="dict in dict.type.pro_status" :key="dict.value" :label="dict.value"
-                   >{{ dict.label }}</el-radio>
+            <el-radio v-for="dict in dict.type.pro_status" :key="dict.value" :label="dict.value">{{ dict.label
+              }}</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="单位ID" prop="empId">
@@ -177,7 +177,7 @@ export default {
       },
       // 表单参数
       form: {
-        status:'0'
+        status: '0'
       },
       // 表单校验
       rules: {
@@ -221,7 +221,7 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        proId: null,
+        id: null,
         proCode: null,
         proName: null,
         proDesc: null,
@@ -250,7 +250,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.proId)
+      this.ids = selection.map(item => item.id)
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
@@ -259,23 +259,24 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加服装产品管理";
-      this.form.status='0';
+      this.form.status = '0';
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const proId = row.proId || this.ids
-      getErpPro(proId).then(response => {
+      const id = row.id || this.ids
+      getErpPro(id).then(response => {
         this.form = response;
         this.open = true;
         this.title = "修改服装产品管理";
       });
+
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.proId != null) {
+          if (this.form.id != null) {
             updateErpPro(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
@@ -293,9 +294,9 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const proIds = row.proId || this.ids;
-      this.$modal.confirm('是否确认删除服装产品管理编号为"' + proIds + '"的数据项？').then(function () {
-        return delErpPro(proIds);
+      const ids = row.id || this.ids;
+      this.$modal.confirm('是否确认删除服装产品管理编号为"' + ids + '"的数据项？').then(function () {
+        return delErpPro(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
