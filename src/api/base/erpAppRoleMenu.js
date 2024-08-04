@@ -27,6 +27,15 @@ export function addErpAppRoleMenu(data) {
   })
 }
 
+// 新增角色菜单表
+export function saveErpAppRoleMenu(data) {
+  return request({
+    url: '/base/erpAppRoleMenu/saveMenu',
+    method: 'post',
+    data: data
+  })
+}
+
 // 修改角色菜单表
 export function updateErpAppRoleMenu(data) {
   return request({

@@ -52,3 +52,19 @@ export function exportErpAppMenu(query) {
     params: query
   })
 }
+
+// 查询app功能菜单详细
+export function getErpAppMenuByRoleId(id) {
+  return request({
+    url: '/base/erpAppMenu/listByRole?roleId=' + id,
+    method: 'get'
+  })
+}
+
+// 查询app功能菜单详细
+export function getErpAppMenuGroup() {
+  return request({
+    url: '/base/erpAppMenu/listAppMenu',
+    method: 'get'
+  })
+}

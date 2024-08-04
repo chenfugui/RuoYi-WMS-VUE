@@ -46,6 +46,7 @@
       <el-table-column label="菜单编码" align="center" prop="menuCode" v-if="columns[1].visible" />
       <el-table-column label="菜单名称" align="center" prop="menuName" v-if="columns[2].visible" />
       <el-table-column label="菜单路径" align="center" prop="menuPath" v-if="columns[3].visible" />
+      <el-table-column label="图标" align="center" prop="icon" v-if="columns[6].visible" />
       <el-table-column label="创建人" align="center" prop="createBy" v-if="columns[4].visible" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180" v-if="columns[5].visible">
         <template slot-scope="scope">
@@ -83,6 +84,9 @@
         <el-form-item label="菜单名称" prop="menuName">
           <el-input v-model.trim="form.menuName" placeholder="请输入菜单名称" />
         </el-form-item>
+        <el-form-item label="图标" prop="icon">
+          <el-input v-model.trim="form.icon" placeholder="请输入图标编码" />
+        </el-form-item>
         <el-form-item label="菜单路径" prop="menuPath">
           <el-input v-model="form.menuPath" type="textarea" placeholder="请输入内容" />
         </el-form-item>
@@ -99,7 +103,7 @@
 </template>
 
 <script>
-import { listErpAppMenu, getErpAppMenu, delErpAppMenu, addErpAppMenu, updateErpAppMenu, exportErpAppMenu } from "@/api/base/erpAppMenu";
+import {getErpAppMenuGroup, listErpAppMenu, getErpAppMenu, delErpAppMenu, addErpAppMenu, updateErpAppMenu, exportErpAppMenu } from "@/api/base/erpAppMenu";
 
 export default {
   name: "ErpAppMenu",
@@ -146,13 +150,20 @@ export default {
         { key: 5, label: "菜单路径", visible: true },
         { key: 7, label: "创建人", visible: true },
         { key: 8, label: "创建时间", visible: true },
+        { key: 9, label: "图标", visible: true },
       ],
     };
   },
   created() {
     this.getList();
+    //this.getAppMenuGroupList();
   },
   methods: {
+    //获取app分组菜单
+     async getAppMenuGroupList() {
+       const data =  await getErpAppMenuGroup();
+       console.log(JSON.stringify(data));
+    },
     /** 查询app功能菜单列表 */
     getList() {
       this.loading = true;
@@ -185,6 +196,7 @@ export default {
         createTime: null,
         updateBy: null,
         updateTime: null,
+        icon:null,
       };
       this.resetForm("form");
     },
