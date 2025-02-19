@@ -61,6 +61,13 @@ export const constantRoutes = [
     component: () => import("@/views/error/401"),
     hidden: true,
   },
+  // {
+  //   path: '/base/erpProTemplate-data/index/:tmpId',
+  //   name: 'TemplateData',
+  //   component: () => import("@/views/base/erpProTemplate/data"),
+  //       name: "TemplateData",
+  //   meta: { title: '模板数据' }
+  // },
   {
     path: "",
     component: Layout,
@@ -131,6 +138,20 @@ export const dynamicRoutes = [
         component: () => import("@/views/system/dict/data"),
         name: "Data",
         meta: { title: "字典数据", activeMenu: "/system/dict" },
+      },
+    ],
+  },
+  {
+    path: "/base/erpProTemplate-data",
+    component: Layout,
+    hidden: true,
+    permissions: ["base:erpProTemplate:list"],
+    children: [
+      {
+        path: "index/:tmpId(\\d+)",
+        component: () => import("@/views/base/erpProTemplate/data"),
+        name: "TemplateData",
+        meta: { title: "模板数据", activeMenu: "/base/erpProTemplate" },
       },
     ],
   },

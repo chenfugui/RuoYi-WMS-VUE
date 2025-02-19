@@ -63,6 +63,7 @@ module.exports = {
     },
   },
   configureWebpack: {
+    devtool: 'source-map',
     name: name,
     resolve: {
       alias: {

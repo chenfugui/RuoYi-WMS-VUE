@@ -85,7 +85,13 @@
     <WmsTable v-loading="loading" :data="ErpProTemplateList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="模板编码" align="center" prop="tmpCode" v-if="columns[0].visible"/>
-      <el-table-column label="模板名称" align="center" prop="tmpName" v-if="columns[1].visible"/>
+      <el-table-column label="模板名称" align="center" prop="tmpName" v-if="columns[1].visible">
+        <template slot-scope="scope">
+          <router-link :to="'/base/erpProTemplate-data/index/' + scope.row.id" class="link-type">
+            <span>{{ scope.row.tmpName }}</span>
+          </router-link>
+        </template>
+      </el-table-column>
       <el-table-column label="模板类型" align="center" prop="tmpType" v-if="columns[2].visible">
         <template slot-scope="scope">
             <dict-tag :options="dict.type.tmp_type" :value="scope.row.tmpType"/>
