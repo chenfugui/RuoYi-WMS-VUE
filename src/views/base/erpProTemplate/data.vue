@@ -2,7 +2,7 @@
     <div class="app-container">
       <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px" size="medium" class="ry_form">
         <el-form-item label="模板" prop="tmpId">
-          <el-select v-model="selectTmpId" placeholder="请选择模板" clearable size="small">
+          <el-select v-model="queryParams.tmpId" placeholder="请选择模板" clearable size="small">
               <el-option
                 v-for="item in tmpList"
                 :key="item.id"
@@ -136,17 +136,18 @@
           <el-form-item label="模板" prop="tmpId">
             <el-select v-model="form.tmpId" placeholder="请选择模板">
               <el-option
-                v-for="dict in dict.type.tmp_type"
-                :key="dict.value"
-                :label="dict.label"
-                :value="parseInt(dict.value)"            ></el-option>
+                v-for="item in tmpList"
+                :key="item.id"
+                :label="item.tmpName"
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="模板编码" prop="tmpCode">
-            <el-input v-model.trim="form.tmpCode" placeholder="请输入模板编码" />
+            <el-input v-model.trim="form.tmpCode" :disabled="true" placeholder="请输入模板编码" />
           </el-form-item>
           <el-form-item label="项目编码" prop="itemCode">
-            <el-input v-model.trim="form.itemCode" placeholder="请输入项目编码" />
+            <el-input v-model.trim="form.itemCode"  placeholder="请输入项目编码" />
           </el-form-item>
           <el-form-item label="项目名称" prop="itemName">
             <el-input v-model.trim="form.itemName" placeholder="请输入项目名称" />
@@ -233,8 +234,8 @@
     created() {
       const tmpId = this.$route.params.tmpId;
       console.info("tmpid--------------"+tmpId);
-      if (tmpId) {
-        this.queryParams.tmpId = tmpId;
+      if (null!=tmpId) {
+        this.queryParams.tmpId = parseInt(tmpId);
         this.form.tmpId = parseInt(tmpId);
         this.form.tmpName = this.$route.query.tmpName;
         this.getTemplateDetails(tmpId);
@@ -264,8 +265,8 @@
       reset() {
         this.form = {
           id: null,
-          tmpId: null,
-          tmpCode: null,
+          tmpId: this.queryParams.tmpId,
+          tmpCode: this.tmpList[0].tmpCode,
           itemCode: null,
           itemName: null,
           itemMemo: null,
