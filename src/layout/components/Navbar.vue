@@ -102,7 +102,8 @@ export default {
         .then(() => {
           this.$store.dispatch("LogOut").then(() => {
             //location.href = this.$router.options.base + "/index";
-            location.href = this.$router.options.base + "/login";
+            this.$router.push({ path: "/login" });
+            //location.href = this.$router.options.base + "/wms";
           });
         })
         .catch(() => { });
