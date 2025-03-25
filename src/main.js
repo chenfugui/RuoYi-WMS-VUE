@@ -39,6 +39,8 @@ import VueMeta from 'vue-meta'
 import DictData from '@/components/DictData'
 //wms table组件
 import WmsTable from '@/components/WmsTable'
+//页脚
+import Footer from '@/components/Footer'
 
 import WmsSupplierSelect from '@/components/WmsSupplierSelect'
 import WmsCustomerSelect from '@/components/WmsCustomerSelect'
@@ -79,6 +81,7 @@ Vue.component('WmsCarrierSelect',WmsCarrierSelect)
 Vue.component('DictRadio',DictRadio)
 Vue.component('DictSelect',DictSelect)
 Vue.component('WmsWarehouseCascader',WmsWarehouseCascader)
+Vue.component('Footer',Footer)
 
 Vue.use(KrPrintDesigner);
 Vue.use(vuePlugsPrint);

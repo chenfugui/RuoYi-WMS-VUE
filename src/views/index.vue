@@ -203,6 +203,7 @@
         </el-card>
       </el-col>
     </el-row>
+    <Footer></Footer>
   </div>
 </template>
 

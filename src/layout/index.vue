@@ -11,9 +11,10 @@
       <right-panel>
         <settings />
       </right-panel>
-      <div id="footer-global" :style="{left: !sidebar.opened ? '54px' : '200px'}">
-        <p class="bolder-font large-tip">技术支持：关注“编写美好前程”微信公众号，回复：支持</p>
-      </div>
+      <!-- <div id="footer-global" :style="{left: !sidebar.opened ? '54px' : '200px'}">
+        <p class="bolder-font large-tip"><Footer></Footer></p>
+      </div> -->
+      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -121,7 +122,8 @@ export default {
     padding: 12px;
     box-shadow: -1px 0 12px 0 var(--gray-5);
     transition: all .28s;
-    background-color: white;
+    background-color: grey;
     z-index: 1;
+    align-content: center;
   }
 </style>

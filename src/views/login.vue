@@ -50,7 +50,8 @@
     </el-dialog>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2017-2023 ichengle.top 技术支持：关注“编写美好前程”微信公众号，回复：支持</span>
+      <span>Copyright © 2025-2025 zhic.site 
+      <a href="http://beian.miit.gov.cn" target="_blank">豫ICP备2025116777号-1</a></span>
     </div>
   </div>
 </template>
@@ -230,6 +231,14 @@ export default {
   font-size: 12px;
   letter-spacing: 1px;
 }
+.el-login-footer a{
+  color:#fff
+}
+
+.el-login-footer a:hover {
+  color: orange; 
+}
+
 
 .login-code-img {
   height: 38px;
